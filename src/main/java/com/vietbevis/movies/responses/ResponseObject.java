@@ -4,7 +4,6 @@ import lombok.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,8 +12,6 @@ public class ResponseObject {
     private final Map<String, Object> map = new HashMap<>();
 
     private ResponseObject() {
-        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        map.put("timestamp", timestamp);
         this.setCode(200);
     }
 

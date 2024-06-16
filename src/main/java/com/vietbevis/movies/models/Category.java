@@ -18,6 +18,7 @@ import java.util.List;
 public class Category {
     @Id
     @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Size(max = 255)
@@ -25,7 +26,7 @@ public class Category {
     private String name;
 
     @Size(max = 255)
-    @Column(name = "slug", nullable = false)
+    @Column(name = "slug", nullable = false, unique = true)
     private String slug;
 
     @ManyToMany(mappedBy = "categories")

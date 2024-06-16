@@ -45,7 +45,19 @@ public class CategoryController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateCategory(@PathVariable("id") Long id, @Valid @RequestBody CategoryDTO categoryDTO) {
-        return ResponseEntity.ok("Category with id: " + id + " updated " + categoryDTO);
+    public ResponseEntity<?> updateCategory(@PathVariable("id") Long id, @Valid @RequestBody CategoryDTO categoryDTO) {
+        CategoryResponse categoryResponse = categoryService.updateCategory(id, categoryDTO);
+        return ResponseObject.getBuilder()
+                .setMessage("Get category successfully")
+                .setData(categoryResponse)
+                .build();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteCategory(@PathVariable("id") Long id) {
+        categoryService.deleteCategory(id);
+        return ResponseObject.getBuilder()
+                .setMessage("Delete category successfully")
+                .build();
     }
 }

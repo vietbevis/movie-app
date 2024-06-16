@@ -13,6 +13,7 @@ import org.hibernate.annotations.ColumnDefault;
 public class Episode {
     @Id
     @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Size(max = 255)

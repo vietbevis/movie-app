@@ -15,6 +15,7 @@ import java.time.LocalDate;
 public class User {
     @Id
     @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Size(max = 255)
