@@ -18,7 +18,7 @@ public class ActorService {
     private final ActorRepository actorRepository;
     private final ActorMapper actorMapper;
 
-    public ActorResponse getActorById(Long id) {
+    public ActorResponse getActorById(String id) {
         Actor actor = actorRepository.findById(id)
                 .orElseThrow(() -> new DataNotFoundException("Actor not found with id: " + id));
         return actorMapper.toActorResponse(actor);
@@ -46,7 +46,7 @@ public class ActorService {
         return actorMapper.toActorResponse(newActor);
     }
 
-    public ActorResponse updateActor(Long id, ActorDTO actorDTO) {
+    public ActorResponse updateActor(String id, ActorDTO actorDTO) {
         Actor actor = actorRepository.findById(id)
                 .orElseThrow(() -> new DataNotFoundException("Actor not found with id: " + id));
         ActorResponse actorExists = getActorByName(actorDTO.getName());
@@ -58,7 +58,7 @@ public class ActorService {
         return actorMapper.toActorResponse(newActor);
     }
 
-    public void deleteActor(Long id) {
+    public void deleteActor(String id) {
         Actor actor = actorRepository.findById(id)
                 .orElseThrow(() -> new DataNotFoundException("Actor not found with id: " + id));
         actorRepository.deleteById(id);

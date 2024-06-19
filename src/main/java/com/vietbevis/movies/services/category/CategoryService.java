@@ -34,7 +34,7 @@ public class CategoryService implements ICategoryService {
     }
 
     @Override
-    public CategoryResponse updateCategory(Long id, CategoryDTO categoryDTO) {
+    public CategoryResponse updateCategory(String id, CategoryDTO categoryDTO) {
         Category categoryExists = categoryRepository.findById(id)
                 .orElseThrow(() -> new DataNotFoundException("Category not found"));
         CategoryResponse categoryName = getCategoryByName(categoryDTO.getName());
@@ -49,7 +49,7 @@ public class CategoryService implements ICategoryService {
     }
 
     @Override
-    public void deleteCategory(Long id) {
+    public void deleteCategory(String id) {
         Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> new DataNotFoundException("Category not found"));
         categoryRepository.delete(category);
@@ -62,7 +62,7 @@ public class CategoryService implements ICategoryService {
     }
 
     @Override
-    public CategoryResponse getCategoryById(Long id) {
+    public CategoryResponse getCategoryById(final String id) {
         Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> new DataNotFoundException("Category not found"));
         return categoryMapper.toCategoryResponse(category);

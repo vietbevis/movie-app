@@ -4,17 +4,18 @@ import com.vietbevis.movies.dtos.CategoryDTO;
 import com.vietbevis.movies.responses.category.CategoryResponse;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface ICategoryService {
     CategoryResponse createCategory(CategoryDTO categoryDTO);
 
-    CategoryResponse updateCategory(Long id, CategoryDTO categoryDTO);
+    CategoryResponse updateCategory(String id, CategoryDTO categoryDTO);
 
-    void deleteCategory(Long id);
+    void deleteCategory(String id);
 
     List<CategoryResponse> getAllCategories();
 
-    CategoryResponse getCategoryById(Long id);
+    CategoryResponse getCategoryById(String id);
 
     CategoryResponse getCategoryByName(String name);
 

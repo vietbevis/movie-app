@@ -15,8 +15,8 @@ import java.util.List;
 public class Movie {
     @Id
     @Column(name = "id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String id;
 
     @Size(max = 255)
     @Column(name = "name", nullable = false)
@@ -38,7 +38,7 @@ public class Movie {
     @Column(name = "status")
     private String status;
 
-    @Size(max = 255)
+    @Lob
     @Column(name = "content")
     private String content;
 
@@ -80,13 +80,17 @@ public class Movie {
     @Column(name = "time")
     private String time;
 
+    @Size(max = 255)
+    @Column(name = "show_times")
+    private String showTimes;
+
     @Column(name = "created_at")
     private LocalDate createdAt;
 
     @Column(name = "updated_at")
     private LocalDate updatedAt;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany
     @JoinTable(
             name = "movie_actor",
             joinColumns = @JoinColumn(name = "movie_id"),
@@ -94,7 +98,7 @@ public class Movie {
     )
     private List<Actor> actors;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany
     @JoinTable(
             name = "movie_director",
             joinColumns = @JoinColumn(name = "movie_id"),
@@ -102,7 +106,7 @@ public class Movie {
     )
     private List<Director> directors;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany
     @JoinTable(
             name = "movie_category",
             joinColumns = @JoinColumn(name = "movie_id"),
@@ -110,12 +114,14 @@ public class Movie {
     )
     private List<Category> categories;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany
     @JoinTable(
             name = "movie_country",
             joinColumns = @JoinColumn(name = "movie_id"),
             inverseJoinColumns = @JoinColumn(name = "country_id")
     )
     private List<Country> countries;
+
+    private String episodes;
 
 }

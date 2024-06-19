@@ -39,7 +39,7 @@ public class DirectorController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getDirector(@Valid @PathVariable("id") Long id) {
+    public ResponseEntity<?> getDirector(@Valid @PathVariable("id") String id) {
         DirectorResponse directorResponse = directorService.getDirectorById(id);
         return ResponseObject.getBuilder()
                 .setMessage("Get director successfully")
@@ -48,7 +48,7 @@ public class DirectorController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateDirector(@PathVariable("id") Long id, @Valid @RequestBody DirectorDTO directorDTO) {
+    public ResponseEntity<?> updateDirector(@PathVariable("id") String id, @Valid @RequestBody DirectorDTO directorDTO) {
         DirectorResponse directorResponse = directorService.updateDirector(id, directorDTO);
         return ResponseObject.getBuilder()
                 .setMessage("Update director successfully")
@@ -57,7 +57,7 @@ public class DirectorController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteDirector(@PathVariable("id") Long id) {
+    public ResponseEntity<?> deleteDirector(@PathVariable("id") String id) {
         directorService.deleteDirector(id);
         return ResponseObject.getBuilder()
                 .setMessage("Delete director successfully")

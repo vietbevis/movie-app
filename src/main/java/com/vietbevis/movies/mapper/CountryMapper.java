@@ -8,6 +8,7 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface CountryMapper {
+
     CountryResponse toCountryResponse(Country country);
 
     List<CountryResponse> toCountryResponseList(List<Country> countries);

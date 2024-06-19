@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("${api.prefix}/categories")
 @RequiredArgsConstructor
@@ -36,7 +38,7 @@ public class CategoryController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getCategoryById(@Valid @PathVariable("id") Long id) {
+    public ResponseEntity<?> getCategoryById(@PathVariable("id") String id) {
         CategoryResponse categoryResponse = categoryService.getCategoryById(id);
         return ResponseObject.getBuilder()
                 .setMessage("Get category successfully")
@@ -45,7 +47,7 @@ public class CategoryController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateCategory(@PathVariable("id") Long id, @Valid @RequestBody CategoryDTO categoryDTO) {
+    public ResponseEntity<?> updateCategory(@PathVariable("id") String id, @Valid @RequestBody CategoryDTO categoryDTO) {
         CategoryResponse categoryResponse = categoryService.updateCategory(id, categoryDTO);
         return ResponseObject.getBuilder()
                 .setMessage("Get category successfully")
@@ -54,7 +56,7 @@ public class CategoryController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteCategory(@PathVariable("id") Long id) {
+    public ResponseEntity<?> deleteCategory(@PathVariable("id") String id) {
         categoryService.deleteCategory(id);
         return ResponseObject.getBuilder()
                 .setMessage("Delete category successfully")

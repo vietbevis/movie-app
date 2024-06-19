@@ -40,7 +40,7 @@ public class ActorController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getActor(@Valid @PathVariable("id") Long id) {
+    public ResponseEntity<?> getActor(@Valid @PathVariable("id") String id) {
         ActorResponse actorResponse = actorService.getActorById(id);
         return ResponseObject.getBuilder()
                 .setMessage("Get actor successfully")
@@ -49,7 +49,7 @@ public class ActorController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateActor(@PathVariable("id") Long id, @Valid @RequestBody ActorDTO actorDTO) {
+    public ResponseEntity<?> updateActor(@PathVariable("id") String id, @Valid @RequestBody ActorDTO actorDTO) {
         ActorResponse actorResponse = actorService.updateActor(id, actorDTO);
         return ResponseObject.getBuilder()
                 .setMessage("Update actor successfully")
@@ -58,7 +58,7 @@ public class ActorController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteActor(@PathVariable("id") Long id) {
+    public ResponseEntity<?> deleteActor(@PathVariable("id") String id) {
         actorService.deleteActor(id);
         return ResponseObject.getBuilder()
                 .setMessage("Delete actor successfully")

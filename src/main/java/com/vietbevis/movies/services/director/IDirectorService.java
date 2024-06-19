@@ -6,15 +6,15 @@ import com.vietbevis.movies.responses.director.DirectorResponse;
 import java.util.List;
 
 public interface IDirectorService {
-    DirectorResponse getDirectorById(Long id);
+    DirectorResponse getDirectorById(String id);
 
     DirectorResponse getDirectorByName(String name);
 
     DirectorResponse createDirector(DirectorDTO directorDTO);
 
-    DirectorResponse updateDirector(Long id, DirectorDTO directorDTO);
+    DirectorResponse updateDirector(String id, DirectorDTO directorDTO);
 
-    void deleteDirector(Long id);
+    void deleteDirector(String id);
 
     List<DirectorResponse> getAllDirectors();
 }

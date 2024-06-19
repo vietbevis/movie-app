@@ -8,6 +8,7 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface ActorMapper {
+
     ActorResponse toActorResponse(Actor actor);
 
     List<ActorResponse> toActorListResponse(List<Actor> actors);

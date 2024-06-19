@@ -19,7 +19,7 @@ public class DirectorService implements IDirectorService {
     private final DirectorMapper directorMapper;
 
     @Override
-    public DirectorResponse getDirectorById(Long id) {
+    public DirectorResponse getDirectorById(String id) {
         Director director = directorRepository.findById(id)
                 .orElseThrow(() -> new DataNotFoundException("Director not found with id: " + id));
         return directorMapper.toDirectorResponse(director);
@@ -45,7 +45,7 @@ public class DirectorService implements IDirectorService {
     }
 
     @Override
-    public DirectorResponse updateDirector(Long id, DirectorDTO directorDTO) {
+    public DirectorResponse updateDirector(String id, DirectorDTO directorDTO) {
         Director director = directorRepository.findById(id)
                 .orElseThrow(() -> new DataNotFoundException("Director not found with id: " + id));
         DirectorResponse directorExists = getDirectorByName(directorDTO.getName());
@@ -58,7 +58,7 @@ public class DirectorService implements IDirectorService {
     }
 
     @Override
-    public void deleteDirector(Long id) {
+    public void deleteDirector(String id) {
         Director director = directorRepository.findById(id)
                 .orElseThrow(() -> new DataNotFoundException("Director not found with id: " + id));
         directorRepository.deleteById(id);

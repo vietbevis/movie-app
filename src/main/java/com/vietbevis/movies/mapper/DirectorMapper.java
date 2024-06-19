@@ -8,6 +8,7 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface DirectorMapper {
+
     DirectorResponse toDirectorResponse(Director director);
 
     List<DirectorResponse> toDirectorListResponse(List<Director> directors);

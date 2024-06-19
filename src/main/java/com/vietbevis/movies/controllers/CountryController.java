@@ -39,7 +39,7 @@ public class CountryController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getCountry(@Valid @PathVariable("id") Long id) {
+    public ResponseEntity<?> getCountry(@Valid @PathVariable("id") String id) {
         CountryResponse countryResponse = countryService.getCountryById(id);
         return ResponseObject.getBuilder()
                 .setMessage("Get country successfully")
@@ -48,7 +48,7 @@ public class CountryController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateCountry(@PathVariable("id") Long id, @Valid @RequestBody CountryDTO countryDTO) {
+    public ResponseEntity<?> updateCountry(@PathVariable("id") String id, @Valid @RequestBody CountryDTO countryDTO) {
         CountryResponse countryResponse = countryService.updateCountry(id, countryDTO);
         return ResponseObject.getBuilder()
                 .setMessage("Update country successfully")
@@ -57,7 +57,7 @@ public class CountryController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteCountry(@PathVariable("id") Long id) {
+    public ResponseEntity<?> deleteCountry(@PathVariable("id") String id) {
         countryService.deleteCountry(id);
         return ResponseObject.getBuilder()
                 .setMessage("Delete country successfully")

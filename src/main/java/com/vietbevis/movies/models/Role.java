@@ -13,9 +13,9 @@ import org.hibernate.annotations.ColumnDefault;
 @Table(name = "roles")
 public class Role {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id", nullable = false)
-    private Long id;
+    private String id;
 
     @Size(max = 255)
     @Column(name = "name", nullable = false)

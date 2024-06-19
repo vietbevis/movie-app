@@ -5,7 +5,7 @@ import com.vietbevis.movies.responses.actor.ActorListResponse;
 import com.vietbevis.movies.responses.actor.ActorResponse;
 
 public interface IActorService {
-    ActorResponse getActorById(Long id);
+    ActorResponse getActorById(String id);
 
     ActorListResponse getAllActors();
 
@@ -13,7 +13,7 @@ public interface IActorService {
 
     ActorResponse createActor(ActorDTO actorDTO);
 
-    ActorResponse updateActor(Long id, ActorDTO actorDTO);
+    ActorResponse updateActor(String id, ActorDTO actorDTO);
 
-    void deleteActor(Long id);
+    void deleteActor(String id);
 }

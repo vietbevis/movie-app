@@ -1,6 +1,5 @@
 package com.vietbevis.movies.responses.category;
 
-
 import lombok.*;
 
 @Getter
@@ -9,7 +8,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CategoryResponse {
-    private Long id;
+    private String id;
     private String name;
     private String slug;
 }

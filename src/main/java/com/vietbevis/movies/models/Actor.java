@@ -16,8 +16,8 @@ import java.util.List;
 public class Actor {
     @Id
     @Column(name = "id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String id;
 
     @Size(max = 255)
     @Column(name = "name", nullable = false)

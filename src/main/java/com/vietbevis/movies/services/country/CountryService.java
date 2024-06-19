@@ -4,10 +4,10 @@ import com.vietbevis.movies.dtos.CountryDTO;
 import com.vietbevis.movies.exceptions.commons.DataExistsException;
 import com.vietbevis.movies.exceptions.commons.DataNotFoundException;
 import com.vietbevis.movies.mapper.CountryMapper;
-import com.vietbevis.movies.models.Category;
 import com.vietbevis.movies.models.Country;
 import com.vietbevis.movies.repositories.CountryRepository;
 import com.vietbevis.movies.responses.country.CountryResponse;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +20,7 @@ public class CountryService implements ICountryService {
     private final CountryMapper countryMapper;
 
     @Override
-    public CountryResponse getCountryById(Long id) {
+    public CountryResponse getCountryById(String id) {
         Country country = countryRepository.findById(id)
                 .orElseThrow(() -> new DataNotFoundException("Country not found"));
         return countryMapper.toCountryResponse(country);
@@ -30,22 +30,12 @@ public class CountryService implements ICountryService {
     public CountryResponse getCountryByName(String name) {
         Country country = countryRepository.findByName(name);
         return countryMapper.toCountryResponse(country);
-//        if (country != null) {
-//            return countryMapper.toCountryResponse(country);
-//        } else {
-//            throw new DataNotFoundException("Country not found");
-//        }
     }
 
     @Override
     public CountryResponse getCountryBySlug(String slug) {
         Country country = countryRepository.findBySlug(slug);
         return countryMapper.toCountryResponse(country);
-//        if (country != null) {
-//            return countryMapper.toCountryResponse(country);
-//        } else {
-//            throw new DataNotFoundException("Country not found");
-//        }
     }
 
     @Override
@@ -55,6 +45,7 @@ public class CountryService implements ICountryService {
     }
 
     @Override
+    @Transactional
     public CountryResponse createCountry(CountryDTO countryDTO) {
         CountryResponse countryExists = getCountryByName(countryDTO.getName());
         CountryResponse countryExistsSlug = getCountryBySlug(countryDTO.getSlug());
@@ -70,7 +61,7 @@ public class CountryService implements ICountryService {
     }
 
     @Override
-    public CountryResponse updateCountry(Long id, CountryDTO countryDTO) {
+    public CountryResponse updateCountry(String id, CountryDTO countryDTO) {
         Country countryExisting = countryRepository.findById(id)
                 .orElseThrow(() -> new DataNotFoundException("Country not found"));
         CountryResponse countryExistsName = getCountryByName(countryDTO.getName());
@@ -85,7 +76,7 @@ public class CountryService implements ICountryService {
     }
 
     @Override
-    public void deleteCountry(Long id) {
+    public void deleteCountry(String id) {
         Country country = countryRepository.findById(id)
                 .orElseThrow(() -> new DataNotFoundException("Country not found"));
         countryRepository.delete(country);
