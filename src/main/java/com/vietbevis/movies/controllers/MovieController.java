@@ -40,12 +40,13 @@ public class MovieController {
 
     @GetMapping("")
     public ResponseEntity<?> getMovies() {
-        apiService.fetchApiData();
-        List<MovieChildResponse> movieListResponse = movieService.getMovies();
-        return ResponseObject.getBuilder()
-                .setMessage("Movies retrieved successfully")
-                .setData(movieService.getMovies())
-                .build();
+//        apiService.fetchApiData();
+//        List<MovieChildResponse> movieListResponse = movieService.getMovies();
+//        return ResponseObject.getBuilder()
+//                .setMessage("Movies retrieved successfully")
+//                .setData(movieService.getMovies())
+//                .build();
+        return null;
     }
 
     @PutMapping("/{slug}")

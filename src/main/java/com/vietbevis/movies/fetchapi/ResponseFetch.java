@@ -21,5 +21,5 @@ public class ResponseFetch {
     @JsonProperty("pathImage")
     private String pathImage;
 
-    Pagination pagination;
+    private Pagination pagination;
 }

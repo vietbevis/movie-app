@@ -3,6 +3,7 @@ package com.vietbevis.movies.fetchapi;
 import com.vietbevis.movies.controllers.requestMovie.MovieCreationRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
@@ -10,19 +11,22 @@ import reactor.util.retry.Retry;
 
 import java.time.Duration;
 
-@Service
-@RequiredArgsConstructor
+@Component
 public class ApiService {
-    private final WebClient.Builder webClientBuilder;
+    private final WebClient webClient;
 
-    @Scheduled(cron = "0 0 1 * * *")
-    public void fetchApiData() {
-        WebClient webClient = webClientBuilder.build();
-
-        for (int i = 1; i < 10; i++) {
-            fetchPageData(webClient, i);
-        }
+    public ApiService(WebClient webClient) {
+        this.webClient = webClient;
     }
+
+    //    @Scheduled(cron = "0 0 1 * * *")
+//    public void fetchApiData() {
+//        WebClient webClient = webClientBuilder.build();
+//
+//        for (int i = 1; i < 10; i++) {
+//            fetchPageData(webClient, i);
+//        }
+//    }
 
     private void fetchPageData(WebClient webClient, int page) {
         String apiUrl = "https://apii.online/apii/danh-sach/phim-moi-cap-nhat?page=" + page;
@@ -40,6 +44,21 @@ public class ApiService {
                 }, error -> System.out.println("Error: " + error.getMessage()));
     }
 
+    // step 1: create a response data
+
+    // step 2: call endpoint from third party
+
+    // step 3: Save data from response
+
+    public ResponseFetch fetchMovieData() {
+        String apiUrl = "https://apii.online/apii/danh-sach/phim-moi-cap-nhat?page=1";
+        return webClient.get()
+                .uri(apiUrl)
+                .retrieve()
+                .bodyToMono(ResponseFetch.class)
+                .block();
+
+    }
     private void fetchMovieDetails(WebClient webClient, String slug) {
         String apiDetailsUrl = "https://apii.online/apii/phim/" + slug;
         webClient.get()
