@@ -3,6 +3,7 @@ package com.vietbevis.movies.services.movie;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.vietbevis.movies.controllers.requestMovie.MovieCreationRequest;
 import com.vietbevis.movies.dtos.MovieDTO;
 import com.vietbevis.movies.exceptions.commons.DataExistsException;
 import com.vietbevis.movies.exceptions.commons.DataNotFoundException;
@@ -49,7 +50,10 @@ public class MovieService implements IMovieService {
     }
 
     @Override
-    public MovieResponse createMovie(MovieDTO movieDTO, List<?> episode) {
+    public MovieResponse createMovie(MovieCreationRequest movieCreationRequest) {
+        MovieDTO movieDTO = movieCreationRequest.getMovie();
+        List<?> episode = movieCreationRequest.getEpisodes();
+        
         Movie movieExistsName = movieRepository.findMovieByName(movieDTO.getSlug());
         Movie movieExistsSlug = movieRepository.findMovieBySlug(movieDTO.getSlug());
         if (movieExistsName != null || movieExistsSlug != null) {

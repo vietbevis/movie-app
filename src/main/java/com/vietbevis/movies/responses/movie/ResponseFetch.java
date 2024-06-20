@@ -1,7 +1,6 @@
-package com.vietbevis.movies.fetchapi;
+package com.vietbevis.movies.responses.movie;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.vietbevis.movies.responses.movie.MovieChildResponse;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,5 +20,5 @@ public class ResponseFetch {
     @JsonProperty("pathImage")
     private String pathImage;
 
-    private Pagination pagination;
+    private com.vietbevis.movies.dtos.paginationDTO paginationDTO;
 }

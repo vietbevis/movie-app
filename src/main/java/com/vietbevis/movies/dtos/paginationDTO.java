@@ -1,4 +1,4 @@
-package com.vietbevis.movies.fetchapi;
+package com.vietbevis.movies.dtos;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Pagination {
+public class paginationDTO {
     private String totalItems;
     private Integer totalItemsPerPage;
     private String currentPage;

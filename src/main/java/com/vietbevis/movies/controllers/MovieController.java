@@ -1,9 +1,9 @@
 package com.vietbevis.movies.controllers;
 
 import com.vietbevis.movies.controllers.requestMovie.MovieCreationRequest;
-import com.vietbevis.movies.fetchapi.ApiService;
-import com.vietbevis.movies.responses.ResponseObject;
 import com.vietbevis.movies.responses.movie.MovieChildResponse;
+import com.vietbevis.movies.services.init_movie_data.ApiService;
+import com.vietbevis.movies.responses.ResponseObject;
 import com.vietbevis.movies.responses.movie.MovieResponse;
 import com.vietbevis.movies.services.movie.MovieService;
 import jakarta.validation.Valid;
@@ -22,7 +22,7 @@ public class MovieController {
 
     @PostMapping("")
     public ResponseEntity<?> createMovie(@Valid @RequestBody MovieCreationRequest request) {
-        MovieResponse movieResponse = movieService.createMovie(request.getMovie(), request.getEpisodes());
+        MovieResponse movieResponse = movieService.createMovie(request);
         return ResponseObject.getBuilder()
                 .setMessage("Movie created successfully")
                 .setData(movieResponse)
@@ -40,13 +40,11 @@ public class MovieController {
 
     @GetMapping("")
     public ResponseEntity<?> getMovies() {
-//        apiService.fetchApiData();
-//        List<MovieChildResponse> movieListResponse = movieService.getMovies();
-//        return ResponseObject.getBuilder()
-//                .setMessage("Movies retrieved successfully")
-//                .setData(movieService.getMovies())
-//                .build();
-        return null;
+        List<MovieChildResponse> movieListResponse = movieService.getMovies();
+        return ResponseObject.getBuilder()
+                .setMessage("Movies retrieved successfully")
+                .setData(movieService.getMovies())
+                .build();
     }
 
     @PutMapping("/{slug}")
