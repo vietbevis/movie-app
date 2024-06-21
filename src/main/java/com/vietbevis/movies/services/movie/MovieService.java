@@ -53,12 +53,6 @@ public class MovieService implements IMovieService {
     public MovieResponse createMovie(MovieCreationRequest movieCreationRequest) {
         MovieDTO movieDTO = movieCreationRequest.getMovie();
         List<?> episode = movieCreationRequest.getEpisodes();
-        
-        Movie movieExistsName = movieRepository.findMovieByName(movieDTO.getSlug());
-        Movie movieExistsSlug = movieRepository.findMovieBySlug(movieDTO.getSlug());
-        if (movieExistsName != null || movieExistsSlug != null) {
-            throw new DataExistsException("Movie already exists");
-        }
         Movie movie = movieMapper.toMovie(movieDTO);
         movie.setCreatedAt(LocalDate.now());
         return CheckDetailsMovie(movieDTO, episode, movie);

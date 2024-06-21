@@ -2,19 +2,19 @@ package com.vietbevis.movies.services.init_movie_data;
 
 import com.vietbevis.movies.controllers.requestMovie.MovieCreationRequest;
 import com.vietbevis.movies.exceptions.commons.DataExistsException;
+import com.vietbevis.movies.repositories.MovieRepository;
+import com.vietbevis.movies.responses.movie.MovieChildResponse;
 import com.vietbevis.movies.responses.movie.MovieResponse;
 import com.vietbevis.movies.responses.movie.ResponseFetch;
-import com.vietbevis.movies.models.Movie;
-import com.vietbevis.movies.repositories.MovieRepository;
 import com.vietbevis.movies.services.movie.MovieService;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.apachecommons.CommonsLog;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @CommonsLog
@@ -30,71 +30,54 @@ public class MovieDataInit {
     private int count = 0;
     private final List<String> slugsError = new ArrayList<>();
 
+
+//    public ResponseFetch fetchMovies() {
+//
+//
+//    }
+
     @PostConstruct
-    @Transactional
-    public ResponseFetch fetchMovies() {
-
-        for (int i = 1; i <= 50; i++) {
+    public void fetchAndProcessPages() throws DataExistsException {
+        for (int pageIndex = 1; pageIndex <= 100; pageIndex++) {
             try {
-                fetchAndProcessPage(i);
-//                if (i % 2 == 0) Thread.sleep(10000);
+                // Fetch the movie data for the given page index
+                ResponseFetch responseFetch = apiService.fetchMovieData(pageIndex);
+                // Check if the status is true
+                if (responseFetch.isStatus()) {
+                    List<MovieChildResponse> movies = responseFetch.getItems();
+                    for (int i = 0; i < movies.size(); i++) {
+                        MovieChildResponse movie = movies.get(i);
+                        logger.log(Level.INFO, "Page {0} - Movie {1}: {2}", new Object[]{pageIndex, i + 1, movie});
+                        String slug = movie.getSlug();
+                        logger.log(Level.INFO, "Fetched details for movie with slug {0} ", slug);
+//                        MovieCreationRequest movieCreationRequest = apiService.fetchMovieDetails(slug);
+                        findMovieBySlug(slug);
+//                        logger.log(Level.INFO, "Fetched details for movie with slug {0}: {1}", new Object[]{slug, movieCreationRequest});
+
+                    }
+                } else {
+                    logger.log(Level.WARNING, "Failed to fetch movies for page {0}: Status is false", pageIndex);
+                }
+            } catch (DataExistsException e) {
+                logger.log(Level.SEVERE, "DataExistsException for page " + pageIndex + ": " + e.getMessage(), e);
+                throw e;
             } catch (Exception e) {
-                logger.severe("Lỗi tải page: " + i + " từ API. " + e.getMessage());
+                logger.log(Level.SEVERE, "Exception while processing page " + pageIndex + ": " + e.getMessage(), e);
             }
         }
-        if (!slugsError.isEmpty()) retryFailedSlugs();
-        logger.info("Tải dữ liệu thành công.");
-        return null;
     }
 
-    private void fetchAndProcessPage(int pageIndex) throws DataExistsException {
-        ResponseFetch responseFetch = apiService.fetchMovieData(pageIndex);
-        if (responseFetch == null) {
-            throw new DataExistsException("Không có dữ liệu page: " + pageIndex + " từ API.");
-        }
-        logger.info("Lấy dữ liệu từ page: " + pageIndex + " thành công.");
-
-        responseFetch.getItems().forEach(item -> processMovie(item.getSlug()));
-
-        logger.info("Lưu dữ liệu từ page: " + pageIndex + " thành công.");
-    }
-
-    private void processMovie(String slug) {
+    private void findMovieBySlug(String slug) {
         try {
-            Movie movieExistsName = movieRepository.findMovieBySlug(slug);
-            if (movieExistsName != null) {
-                return;
-            }
-
             MovieCreationRequest movieCreationRequest = apiService.fetchMovieDetails(slug);
-            MovieResponse movieResponse = movieService.createMovie(movieCreationRequest);
-            count++;
-            logger.info(count + ", Tải phim: " + movieResponse.getName() + " thành công.");
+            if (movieCreationRequest.isStatus()) {
+                MovieResponse movieResponse = movieService.createMovie(movieCreationRequest);
+                count++;
+                logger.info(count + ", Tải phim: " + movieResponse.getName() + " thành công.");
+            }
         } catch (Exception e) {
             slugsError.add(slug);
             logger.severe("Lỗi tải phim: " + slug + ". " + e.getMessage());
-        }
-    }
-
-    private void retryFailedSlugs() {
-        List<String> remainingSlugs = new ArrayList<>(slugsError);
-        slugsError.clear();
-        for (String slug : remainingSlugs) {
-            int retryCount = 0;
-            boolean success = false;
-            while (retryCount < 3 && !success) {
-                try {
-                    processMovie(slug);
-                    Thread.sleep(300000);
-                    success = true;
-                } catch (Exception e) {
-                    retryCount++;
-                    logger.severe("Lỗi tải phim: " + slug + " lần " + retryCount + ". " + e.getMessage());
-                    if (retryCount == 3) {
-                        logger.severe("Bỏ qua phim: " + slug + " sau 3 lần thử không thành công.");
-                    }
-                }
-            }
         }
     }
 }

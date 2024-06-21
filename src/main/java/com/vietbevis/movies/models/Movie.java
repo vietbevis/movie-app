@@ -18,31 +18,24 @@ public class Movie {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
-    @Size(max = 255)
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Size(max = 255)
-    @Column(name = "slug", nullable = false, unique = true)
+    @Column(name = "slug", nullable = false)
     private String slug;
 
-    @Size(max = 255)
     @Column(name = "origin_name", nullable = false)
     private String originName;
 
-    @Size(max = 255)
     @Column(name = "type")
     private String type;
 
-    @Size(max = 255)
     @Column(name = "status")
     private String status;
 
-    @Lob
-    @Column(name = "content")
+    @Column(name = "content", columnDefinition = "LONGTEXT")
     private String content;
 
-    @Size(max = 255)
     @Column(name = "thumb_url")
     private String thumbUrl;
 
@@ -50,23 +43,18 @@ public class Movie {
     @Column(name = "poster_url")
     private String posterUrl;
 
-    @Size(max = 255)
     @Column(name = "trailer_url")
     private String trailerUrl;
 
-    @Size(max = 255)
     @Column(name = "episode_current")
     private String episodeCurrent;
 
-    @Size(max = 255)
     @Column(name = "episode_total")
     private String episodeTotal;
 
-    @Size(max = 255)
     @Column(name = "quality")
     private String quality;
 
-    @Size(max = 255)
     @Column(name = "lang")
     private String lang;
 
@@ -76,11 +64,9 @@ public class Movie {
     @Column(name = "view")
     private Integer view;
 
-    @Size(max = 255)
     @Column(name = "time")
     private String time;
 
-    @Size(max = 255)
     @Column(name = "show_times")
     private String showTimes;
 
@@ -89,6 +75,9 @@ public class Movie {
 
     @Column(name = "updated_at")
     private LocalDate updatedAt;
+
+    @Column(name = "episodes", columnDefinition = "LONGTEXT")
+    private String episodes;
 
     @ManyToMany
     @JoinTable(
@@ -122,6 +111,5 @@ public class Movie {
     )
     private List<Country> countries;
 
-    private String episodes;
 
 }

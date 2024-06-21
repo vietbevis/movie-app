@@ -15,5 +15,6 @@ public class MovieCreationRequest {
     @Valid
     private MovieDTO movie;
     private List<EpisodeDTO> episodes;
+    private boolean status;
 }
 
